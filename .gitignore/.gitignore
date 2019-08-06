@@ -1,0 +1,118 @@
+#include<conio.h>
+#include<stdio.h>
+#include "meuconio.h"
+#define TF 20
+int main ()
+{
+	int vetX[TF], vetY[TF], gameover=0;
+	int i, col=40, lin=12, TL=3;
+	char tecla, direcao='N';
+	vetX[0]=40;
+	vetY[0]=12;
+	vetX[1]=40;
+	vetY[1]=13;
+	vetX[2]=40;
+	vetY[2]=14;
+	
+	
+	textcolor(10);
+	//linhas horizontais
+	for(i=2; i<=79;i++)
+	{
+		gotoxy(i,1); printf("%c", 196);
+		gotoxy(i,25); printf("%c", 196);
+	}
+	//linhas verticais
+	for(i=2; i<=24; i++)
+	{
+		gotoxy(1,i); printf("%c", 179);
+		gotoxy(80,i); printf("%c", 179);
+	}
+	//cantos
+	gotoxy(1,1); printf("%c", 218);
+	gotoxy(80,1); printf("%c", 191);
+	gotoxy(1,25); printf("%c", 192);
+	gotoxy(80,25); printf("%c", 217);
+	//desenha cobrinha
+	
+	for(i=0; i<TL; i++)
+	{
+		gotoxy(vetX[i],vetY[i]);
+		printf("x");
+		
+	}
+	//desenha as Nibbles
+	for(i=0; i<10; i++)
+	{
+		gotoxy(rand()%78+2, rand()%23+2);
+		printf("@");
+	}
+	
+	do
+	{
+		if (kbhit())
+		{
+		
+		
+			tecla=getch();
+			if(tecla==-32)
+			{
+			tecla=getch();
+			switch(tecla)
+				{
+				case 72: //seta para cima
+						direcao='N';
+						break;
+				case 80: //seta para baixo
+						direcao='S';
+						break;
+				case 75: //seta p esquerda
+						direcao='O';
+						break;
+				case 77: //seta p direita
+						direcao='L';
+						break;
+				}		
+			}
+		}
+		switch(direcao)
+		{
+			case 'N': lin--; break;
+			case 'S': lin++; break;
+			case 'O': col--; break;
+			case 'L': col++; break;
+		}
+		//apaga o ultimo x
+		gotoxy(vetX[TL-1], vetY[TL-1]);
+		printf(" ");
+		if(lin>1 && lin<25 && col>1 && col<80)
+		{
+		
+			for(i=TL-1; i>0; i--)
+			{
+			vetX[i]=vetX[i-1];
+			vetY[i]=vetY[i-1];
+			}
+			//inserir o novo X
+			vetX[0]=col;
+			vetY[0]=lin;
+			gotoxy(col,lin);
+			printf("X");
+			//verificar se chocou ela mesema
+			
+			//verificar se comeu uma NIbbles
+			// se comeu aumentar o tamano dela
+			 
+				
+			_sleep(150);
+		}
+		else
+		gameover=1;
+		
+	}while(tecla!=27 && gameover==0);
+	
+	gotoxy(35,12);
+	printf("Game Over!!!");
+getch();
+
+}
